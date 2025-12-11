@@ -25,6 +25,16 @@ const Register = () => {
       return;
     }
 
+    //password regex validation
+    const regex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/;
+    if (!regex.test(password)) {
+      setErrorMessage(
+        "give at least one uppercase and lowercase and number and special character"
+      );
+      return;
+    }
+
     createUserWithEmailAndPassword(auth, email, password)
       .then((result) => {
         console.log(result.user);
@@ -36,6 +46,7 @@ const Register = () => {
         setSuccessMessage(false);
       });
   };
+
   return (
     <div>
       <h1 className="text-2xl font-medium mb-5">Welcome to Register Page</h1>
@@ -76,7 +87,7 @@ const Register = () => {
           )}
           {successMessage && (
             <p className="text-green-600 font-medium text-lg">
-              Successfully created user done...
+              Successfully registration done...
             </p>
           )}
         </div>
