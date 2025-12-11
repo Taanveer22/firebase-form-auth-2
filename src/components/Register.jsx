@@ -16,7 +16,8 @@ const Register = () => {
     const name = e.target.name.value;
     const email = e.target.email.value;
     const password = e.target.password.value;
-    console.log(name, email, password);
+    const checkbox = e.target.checkbox.checked;
+    console.log(name, email, password, checkbox);
 
     // reset state status
     setErrorMessage("");
@@ -36,6 +37,11 @@ const Register = () => {
         "give at least one uppercase and lowercase and number and special character"
       );
       return;
+    }
+
+    // terms and conditions validation
+    if (!checkbox) {
+      setErrorMessage("please accept our terms and condtions");
     }
 
     createUserWithEmailAndPassword(auth, email, password)
@@ -90,9 +96,11 @@ const Register = () => {
                 <FaEye size={20}></FaEye>
               )}
             </button>
-            <div>
-              <a className="link link-hover">Forgot password?</a>
-            </div>
+
+            <label className="label">
+              <input type="checkbox" name="checkbox" className="checkbox" />
+              Accept our terms and conditions
+            </label>
             <button className="btn btn-neutral mt-4">Register</button>
           </fieldset>
           {errorMessage && (

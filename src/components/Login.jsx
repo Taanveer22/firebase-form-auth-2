@@ -10,7 +10,7 @@ const Login = () => {
   };
   return (
     <div className="">
-      <h1 className="text-2xl font-medium mb-5">Welcome to Register Page</h1>
+      <h1 className="text-2xl font-medium mb-5">Welcome to Login Page</h1>
       <form
         onSubmit={handleLoginForm}
         className="card bg-base-100 w-full max-w-md shrink-0 shadow-2xl"
