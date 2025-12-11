@@ -2,10 +2,13 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { Link } from "react-router-dom";
 import auth from "../firebase/config";
 import { useState } from "react";
+import { FaEye } from "react-icons/fa";
+import { FaEyeSlash } from "react-icons/fa";
 
 const Register = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleRegisterForm = (e) => {
     e.preventDefault();
@@ -55,7 +58,7 @@ const Register = () => {
         className="card bg-base-100 w-full max-w-md shrink-0 shadow-2xl"
       >
         <div className="card-body">
-          <fieldset className="fieldset">
+          <fieldset className="fieldset relative">
             <label className="label">Name</label>
             <input
               name="name"
@@ -73,10 +76,20 @@ const Register = () => {
             <label className="label">Password</label>
             <input
               name="password"
-              type="password"
+              type={showPassword ? "text" : "password"}
               className="input"
               placeholder="Password"
             />
+            <button
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-24 top-44"
+            >
+              {showPassword ? (
+                <FaEyeSlash size={20}></FaEyeSlash>
+              ) : (
+                <FaEye size={20}></FaEye>
+              )}
+            </button>
             <div>
               <a className="link link-hover">Forgot password?</a>
             </div>
