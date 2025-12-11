@@ -1,6 +1,11 @@
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { Link } from "react-router-dom";
+import auth from "../firebase/config";
+import { useState } from "react";
 
 const Register = () => {
+  const [errorMessage, setErrorMessage] = useState("");
+
   const handleRegisterForm = (e) => {
     e.preventDefault();
 
@@ -8,6 +13,18 @@ const Register = () => {
     const email = e.target.email.value;
     const password = e.target.password.value;
     console.log(name, email, password);
+
+    // reset state status
+    setErrorMessage("");
+
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((result) => {
+        console.log(result.user);
+      })
+      .catch((error) => {
+        console.log(error.message);
+        setErrorMessage(error.message);
+      });
   };
   return (
     <div>
@@ -44,9 +61,12 @@ const Register = () => {
             </div>
             <button className="btn btn-neutral mt-4">Register</button>
           </fieldset>
+          {errorMessage && (
+            <p className="text-red-600 font-medium text-lg">{errorMessage}</p>
+          )}
         </div>
       </form>
-      <div className="flex items-center gap-2 mt-5 text-lg font-medium">
+      <div className="flex items-center gap-2 my-5 text-lg font-medium">
         <p>Already have an account please</p>
         <span className="btn btn-info">
           <Link to="/login">Login</Link>
