@@ -57,7 +57,7 @@ const Register = () => {
   };
 
   return (
-    <div>
+    <>
       <h1 className="text-2xl font-medium mb-5">Welcome to Register Page</h1>
       <form
         onSubmit={handleRegisterForm}
@@ -119,7 +119,7 @@ const Register = () => {
           <Link to="/login">Login</Link>
         </span>
       </div>
-    </div>
+    </>
   );
 };
 

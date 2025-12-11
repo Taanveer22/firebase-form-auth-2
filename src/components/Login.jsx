@@ -1,15 +1,35 @@
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { Link } from "react-router-dom";
+import auth from "../firebase/config";
+import { useState } from "react";
 
 const Login = () => {
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState(false);
+
   const handleLoginForm = (e) => {
     e.preventDefault();
 
     const email = e.target.email.value;
     const password = e.target.password.value;
     console.log(email, password);
+
+    // reset state status
+    setErrorMessage("");
+    setSuccessMessage(false);
+
+    signInWithEmailAndPassword(auth, email, password)
+      .then((result) => {
+        console.log(result.user);
+        setSuccessMessage(true);
+      })
+      .catch((error) => {
+        console.log(error.message);
+        setErrorMessage(error.message);
+      });
   };
   return (
-    <div className="">
+    <>
       <h1 className="text-2xl font-medium mb-5">Welcome to Login Page</h1>
       <form
         onSubmit={handleLoginForm}
@@ -37,6 +57,12 @@ const Login = () => {
             <button className="btn btn-neutral mt-4">Login</button>
           </fieldset>
         </div>
+        {errorMessage && (
+          <p className="text-lg font-medium text-red-600">{errorMessage}</p>
+        )}
+        {successMessage && (
+          <p className="text-lg font-medium text-green-500">Login Successful</p>
+        )}
       </form>
       <div className="flex items-center gap-2 mt-5 text-lg font-medium">
         <p>New to here please</p>
@@ -44,7 +70,7 @@ const Login = () => {
           <Link to="/register">Register</Link>
         </span>
       </div>
-    </div>
+    </>
   );
 };
 
