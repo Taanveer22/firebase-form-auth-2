@@ -5,6 +5,7 @@ import { useState } from "react";
 
 const Register = () => {
   const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState(false);
 
   const handleRegisterForm = (e) => {
     e.preventDefault();
@@ -16,14 +17,23 @@ const Register = () => {
 
     // reset state status
     setErrorMessage("");
+    setSuccessMessage(false);
+
+    // password validation
+    if (password.length < 6) {
+      setErrorMessage("password must be 6 characters or longer");
+      return;
+    }
 
     createUserWithEmailAndPassword(auth, email, password)
       .then((result) => {
         console.log(result.user);
+        setSuccessMessage(true);
       })
       .catch((error) => {
         console.log(error.message);
         setErrorMessage(error.message);
+        setSuccessMessage(false);
       });
   };
   return (
@@ -63,6 +73,11 @@ const Register = () => {
           </fieldset>
           {errorMessage && (
             <p className="text-red-600 font-medium text-lg">{errorMessage}</p>
+          )}
+          {successMessage && (
+            <p className="text-green-600 font-medium text-lg">
+              Successfully created user done...
+            </p>
           )}
         </div>
       </form>
