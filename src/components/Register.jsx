@@ -1,6 +1,7 @@
 import {
   createUserWithEmailAndPassword,
   sendEmailVerification,
+  updateProfile,
 } from "firebase/auth";
 import { Link } from "react-router-dom";
 import auth from "../firebase/config";
@@ -20,7 +21,8 @@ const Register = () => {
     const email = e.target.email.value;
     const password = e.target.password.value;
     const checkbox = e.target.checkbox.checked;
-    console.log(name, email, password, checkbox);
+    const photo = e.target.photo.value;
+    console.log(name, email, password, checkbox, photo);
 
     // reset state status
     setErrorMessage("");
@@ -56,6 +58,19 @@ const Register = () => {
         sendEmailVerification(auth.currentUser).then(() => {
           console.log("verification email sent");
         });
+
+        // ===== update name and photo url ======
+        const profileData = {
+          displayName: name,
+          photoURL: photo,
+        };
+        updateProfile(auth.currentUser, profileData)
+          .then(() => {
+            console.log("profile updated");
+          })
+          .catch((error) => {
+            console.log(error.message);
+          });
       })
       .catch((error) => {
         console.log(error.message);
@@ -80,6 +95,13 @@ const Register = () => {
               className="input"
               placeholder="Name"
             />
+            <label className="label">Photo</label>
+            <input
+              name="photo"
+              type="text"
+              className="input"
+              placeholder="Photo Url"
+            />
             <label className="label">Email</label>
             <input
               name="email"
@@ -96,7 +118,7 @@ const Register = () => {
             />
             <button
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-24 top-44"
+              className="absolute right-24 top-62"
             >
               {showPassword ? (
                 <FaEyeSlash size={20}></FaEyeSlash>
